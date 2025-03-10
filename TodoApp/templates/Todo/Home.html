@@ -1,0 +1,80 @@
+{% extends "Todo/Base.html" %}
+{% block content %}
+<style>
+    .center-div {
+        width: 90%;
+        margin: 30px auto;
+    }
+    
+    .card {
+        border-radius: 12px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border: none;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(14, 13, 13, 0.15);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        padding: 15px;
+    }
+   
+   
+
+    .card-body {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .task-desc {
+        text-align: justify;
+        color: #333;
+    }
+</style>
+
+    <a href="{% url 'AddTask' %}" class="btn btn-primary btn-sm" style="margin-bottom: 15px;">New Task</a>
+        
+             
+        {% for list in TodoList %}
+        <div class="card">
+            <div class="card-header">
+                <span>📌 Task Name: {{ list.Title }}</span>
+                
+            </div>
+            <div class="card-body">
+                <p class="task-desc">📝 Description: {{ list.Description }}</p>
+                <span>📅 Created: {{ list.CreatedAt|date:'d M Y'}}</span>
+                <br>
+                <span>⏳ Due: {{ list.CompletionDate|date:'d M Y' }}</span>
+                <br>
+                <span>
+                    {% if list.completionStatus %}
+                    ✅
+                    {% else %}
+                    ❎
+                    {% endif %}
+                    Completion Status: 
+                </span>
+                <br>
+                <a href="{% url 'AddTask' %}?TID={{list.id}}" class="btn btn-primary btn-sm  mt-1">Update</a>
+                
+                <a href="{% url 'Delete' %}?TID={{list.id}}" class="btn btn-danger btn-sm  mt-1">Delete</a>
+                    
+            
+            </div>
+           
+        </div>
+        <br>
+        {% endfor %}
+
+{% endblock content %}
